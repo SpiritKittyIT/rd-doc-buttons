@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <Field ID="{8788f351-925d-4e7e-b40e-a6aa790cd573}"
+            Name="acSpfxButtons"
+            DisplayName="Buttons"
+            Type="Calculated"
+            Min=""
+            Required="FALSE"
+            Group="SPFx Columns"
+            ClientSideComponentId="b319b09e-fe99-4d59-a4a1-0083189b6f0a">
+    </Field>
+</Elements>

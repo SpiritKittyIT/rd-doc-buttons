@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.6",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "rd-doc-buttons",
+    "libraryId": "075be6fc-a04b-4d1f-8596-3cf94d8eeb76",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "rd-doc-buttons",
+    "solutionShortDescription": "rd-doc-buttons description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "FieldCustomizer"
+  }
+}
