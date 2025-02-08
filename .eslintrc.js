@@ -40,13 +40,14 @@ module.exports = {
         '@typescript-eslint/explicit-member-accessibility': 0,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/no-array-constructor': 1,
-        // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
+        // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json - NOPE
         //
         // RATIONALE:         The "any" keyword disables static type checking, the main benefit of using TypeScript.
         //                    This rule should be suppressed only in very special cases such as JSON.stringify()
         //                    where the type really can be anything.  Even if the type is flexible, another type
         //                    may be more appropriate such as "unknown", "{}", or "Record<k,V>".
-        '@typescript-eslint/no-explicit-any': 1,
+        //                    FUCK THAT, LET ME USE ANY
+        '@typescript-eslint/no-explicit-any': 0,
         // RATIONALE:         The #1 rule of promises is that every promise chain must be terminated by a catch()
         //                    handler.  Thus wherever a Promise arises, the code must either append a catch handler,
         //                    or else return the object to a caller (who assumes this responsibility).  Unterminated
@@ -128,8 +129,9 @@ module.exports = {
         // RATIONALE:         This rule warns if setters are defined without getters, which is probably a mistake.
         'accessor-pairs': 1,
         // RATIONALE:         In TypeScript, if you write x["y"] instead of x.y, it disables type checking.
+        // FUCK YOUR RATIONALE
         'dot-notation': [
-          1,
+          0,
           {
             'allowPattern': '^_'
           }

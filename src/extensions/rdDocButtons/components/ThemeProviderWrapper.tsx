@@ -2,7 +2,6 @@ import * as React from 'react'
 import { createTheme, ThemeOptions, ThemeProvider } from '@mui/material'
 
 import './styles.css'
-import './cards/cardStyles.css'
 import RdDocButtons, { IRdDocButtonsProps } from './RdDocButtons'
 
 const ThemeProviderWrapper: React.FC<IRdDocButtonsProps> = (props) => {

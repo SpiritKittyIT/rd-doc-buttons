@@ -21,6 +21,7 @@ export interface IRdDocButtonsProps {
   context: FieldCustomizerContext
   theme: ITheme
   sp: SPFI
+  spp: SPFI
   item: ListItemAccessor
 }
 
@@ -30,19 +31,25 @@ export enum DocLib {
   Archivne = '50f7f4f0-8a38-4890-acf9-a92887454ad7'
 }
 
+enum DialogType {
+  None, Pr, Sc, Pb, Ob, Re, Ar, Rm
+}
+
 export const LocaleStrings: ILang = getLangStrings('sk')
 
 const LOG_SOURCE: string = 'RdDocButtons'
 
 const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
   Log.info(LOG_SOURCE, 'React Element: RdDocButtons started')
+  const lstProcesId = '6dc94517-f874-42eb-aa69-5a58011e57e5'
 
-  const [dialog, setDialog] = React.useState<boolean>(false)
+  const [dialog, setDialog] = React.useState<DialogType>(DialogType.None)
   const [docLib, setDocLib] = React.useState<DocLib>(DocLib.Rozpracovane)
   
   const [isPrDisabled, setIsPrDisabled] = React.useState<boolean>(false)
   const [isScDisabled, setIsScDisabled] = React.useState<boolean>(false)
   const [isPbDisabled, setIsPbDisabled] = React.useState<boolean>(false)
+  const [isObDisabled, setIsObDisabled] = React.useState<boolean>(false)
   const [isRmDisabled, setIsRmDisabled] = React.useState<boolean>(false)
   const [isEdDisabled, setIsEdDisabled] = React.useState<boolean>(false)
   const [isReDisabled, setIsReDisabled] = React.useState<boolean>(false)
@@ -56,6 +63,7 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
     setIsPrDisabled(false)
     setIsScDisabled(false)
     setIsPbDisabled(false)
+    setIsObDisabled(false)
     setIsRmDisabled(false)
     setIsEdDisabled(false)
     setIsReDisabled(false)
@@ -75,23 +83,110 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
     return {color: color, border: `solid 2px ${color}`, borderRadius: 2, width: 26, height: 26, fontWeight: 'bold'}
   }
 
+  const dialogConfirm = (): void => {
+    const proces: Record<string, any> = {}
+
+    switch (dialog) {
+      case DialogType.Pr:
+        proces['acDokId'] = props.item.getValueByName('ID')
+        proces['acProcesTyp'] = 'Pripomienkovanie'
+        proces['acLib'] = 'acLibRozpracovane'
+        props.spp.web.lists.getById(lstProcesId).items.add(proces)
+        .catch((err) => {
+          console.error(err)
+        })
+        break
+      case DialogType.Sc:
+        proces['acDokId'] = props.item.getValueByName('ID')
+        proces['acProcesTyp'] = 'Schvalovanie'
+        proces['acLib'] = 'acLibRozpracovane'
+        props.spp.web.lists.getById(lstProcesId).items.add(proces)
+        .catch((err) => {
+          console.error(err)
+        })
+        break
+      case DialogType.Pb:
+        proces['acDokId'] = props.item.getValueByName('ID')
+        proces['acProcesTyp'] = 'Publikovanie'
+        proces['acLib'] = 'acLibRozpracovane'
+        props.spp.web.lists.getById(lstProcesId).items.add(proces)
+        .catch((err) => {
+          console.error(err)
+        })
+        break
+      case DialogType.Ob:
+        proces['acDokId'] = props.item.getValueByName('ID')
+        proces['acProcesTyp'] = 'Oboznamovanie'
+        proces['acLib'] = 'acLibPlatne'
+        props.spp.web.lists.getById(lstProcesId).items.add(proces)
+        .catch((err) => {
+          console.error(err)
+        })
+        break
+      case DialogType.Re:
+        proces['acDokId'] = props.item.getValueByName('ID')
+        proces['acProcesTyp'] = 'Revizia'
+        proces['acLib'] = 'acLibPlatne'
+        props.spp.web.lists.getById(lstProcesId).items.add(proces)
+        .catch((err) => {
+          console.error(err)
+        })
+        break
+      case DialogType.Ar:
+        proces['acDokId'] = props.item.getValueByName('ID')
+        proces['acProcesTyp'] = 'Archivacia'
+        proces['acLib'] = 'acLibPlatne'
+        props.spp.web.lists.getById(lstProcesId).items.add(proces)
+        .catch((err) => {
+          console.error(err)
+        })
+        break
+      case DialogType.Rm:
+        deleteFile()
+        break
+      default:
+        setDialog(DialogType.None)
+    }
+    setDialog(DialogType.None)
+  }
+
+  const dialogText = (): { title: string; text: string; } => {
+    switch (dialog) {
+      case DialogType.Pr:
+        return {title: `Spustiť pripomienkovanie`, text: ``}
+      case DialogType.Sc:
+        return {title: `Spustiť schvaľovanie`, text: ``}
+      case DialogType.Pb:
+        return {title: `Spustiť publikovanie`, text: ``}
+      case DialogType.Ob:
+        return {title: `Spustiť oboznamovanie`, text: ``}
+      case DialogType.Re:
+        return {title: `Spustiť revíziu`, text: ``}
+      case DialogType.Ar:
+        return {title: `Spustiť archiváciu`, text: ``}
+      case DialogType.Rm:
+        return {title: `Vyhodiť do koša`, text: `Ste si istý, že chcete vymazať ${props.item.getValueByName('FileLeafRef')}?`}
+      default:
+        return {title: ``, text: ``}
+    }
+  }
+
   return (
     <>
       <Dialog
-        open={dialog}
-        onClose={() => {setDialog(false)}}
+        open={dialog !== DialogType.None}
+        onClose={() => {setDialog(DialogType.None)}}
       >
         <DialogTitle>
-        Vymazať?
+          {dialogText().title}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>Ste si istý, že chcete vymazať {props.item.getValueByName('FileLeafRef')}?</DialogContentText>
+          <DialogContentText>{dialogText().text}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {setDialog(false)}}>Zrušiť</Button>
+          <Button onClick={() => {setDialog(DialogType.None)}}>Zrušiť</Button>
           <Button onClick={() => {
-            deleteFile()
-            setDialog(false)
+              dialogConfirm()
             }}
           >Potvrdiť</Button>
         </DialogActions>
@@ -107,11 +202,11 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
           <VisibilityOutlinedIcon />
         </IconButton>
         {
-          docLib == DocLib.Rozpracovane &&
+          docLib === DocLib.Rozpracovane &&
           <>
             <IconButton
               title={LocaleStrings.Buttons.Edit}
-              sx={rowButtonProps(isAllDisabled || isEdDisabled ? 'rgba(0, 0, 0, 0.26)' : 'var(--yellow)')}
+              sx={rowButtonProps(isAllDisabled || isEdDisabled ? 'rgba(0, 0, 0, 0.26)' : 'var(--orange)')}
               size='small'
               disabled={isAllDisabled || isEdDisabled}
               onClick={(event) => {
@@ -124,6 +219,7 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
               size='small'
               disabled={isAllDisabled || isPrDisabled}
               onClick={(event) => {
+                setDialog(DialogType.Pr)
               }}
             >
               Pr
@@ -134,6 +230,7 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
               size='small'
               disabled={isAllDisabled || isScDisabled}
               onClick={(event) => {
+                setDialog(DialogType.Sc)
               }}
             >
               Sc
@@ -144,6 +241,7 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
               size='small'
               disabled={isAllDisabled || isPbDisabled}
               onClick={(event) => {
+                setDialog(DialogType.Pb)
               }}
             >
               Pb
@@ -154,20 +252,24 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
               size='small'
               disabled={isAllDisabled || isRmDisabled}
               onClick={(event) => {
-            }}>
+                setDialog(DialogType.Rm)
+              }}
+            >
               <CloseOutlinedIcon />
             </IconButton>
           </>
         }
         {
-          docLib == DocLib.Platne &&
+          docLib === DocLib.Platne &&
           <>
             <IconButton
               title={'Oboznamovanie'}
-              sx={rowButtonProps(false ? 'rgba(0, 0, 0, 0.26)' : 'var(--cyan)')}
+              sx={rowButtonProps(isObDisabled ? 'rgba(0, 0, 0, 0.26)' : 'var(--cyan)')}
               size='small'
               onClick={(event) => {
-            }}>
+                setDialog(DialogType.Ob)
+              }}
+            >
               Ob
             </IconButton>
             <IconButton
@@ -176,7 +278,9 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
               size='small'
               disabled={isReDisabled}
               onClick={(event) => {
-            }}>
+                setDialog(DialogType.Re)
+              }}
+            >
               Re
             </IconButton>
             <IconButton 
@@ -185,7 +289,9 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
               size='small' 
               disabled={isArDisabled}
               onClick={(event) => {
-            }}>
+                setDialog(DialogType.Ar)
+              }}
+            >
               Ar
             </IconButton>
           </>

@@ -12,6 +12,7 @@ import { spfi, SPFI, SPFx } from '@pnp/sp'
 import { ThemeProvider, ITheme } from '@microsoft/sp-component-base'
 import { LogLevel, PnPLogging } from '@pnp/logging'
 import ThemeProviderWrapper from './components/ThemeProviderWrapper'
+import { AssignFrom } from '@pnp/core'
 
 /**
  * If your field customizer uses the ClientSideComponentProperties JSON input,
@@ -28,6 +29,7 @@ const LOG_SOURCE: string = 'RdDocButtonsFieldCustomizer';
 export default class RdDocButtonsFieldCustomizer
   extends BaseFieldCustomizer<IRdDocButtonsFieldCustomizerProperties> {
     private _sp: SPFI
+    private _spp: SPFI
     private _theme: ITheme | undefined
     private _themeProvider: ThemeProvider
 
@@ -38,6 +40,7 @@ export default class RdDocButtonsFieldCustomizer
     Log.info(LOG_SOURCE, JSON.stringify(this.properties, undefined, 2))
     
     this._sp = spfi().using(SPFx(this.context)).using(PnPLogging(LogLevel.Warning))
+    this._spp = spfi('https://servisac.sharepoint.com/sites/acRdProcesy').using(AssignFrom(this._sp.web))
     this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey)
     this._theme = this._themeProvider.tryGetTheme()
 
@@ -52,6 +55,7 @@ export default class RdDocButtonsFieldCustomizer
         context: this.context,
         theme: this._theme,
         sp: this._sp,
+        spp: this._spp,
         item: event.listItem
       } as IRdDocButtonsProps)
 

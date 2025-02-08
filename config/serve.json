@@ -4,7 +4,7 @@
   "https": true,
   "serveConfigurations": {
     "default": {
-      "pageUrl": "https://{tenantDomain}/SitePages/myPage.aspx",
+      "pageUrl": "https://servisac.sharepoint.com/sites/acRdDokumenty/acLibRozpracovane",
       "fieldCustomizers": {
         "InternalFieldName": {
           "id": "b319b09e-fe99-4d59-a4a1-0083189b6f0a",
@@ -15,7 +15,7 @@
       }
     },
     "rdDocButtons": {
-      "pageUrl": "https://{tenantDomain}/SitePages/myPage.aspx",
+      "pageUrl": "https://servisac.sharepoint.com/sites/acRdDokumenty/acLibRozpracovane",
       "fieldCustomizers": {
         "InternalFieldName": {
           "id": "b319b09e-fe99-4d59-a4a1-0083189b6f0a",

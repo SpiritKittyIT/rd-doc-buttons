@@ -8,5 +8,7 @@
             Required="FALSE"
             Group="SPFx Columns"
             ClientSideComponentId="b319b09e-fe99-4d59-a4a1-0083189b6f0a">
+        <Formula>=""</Formula>
+  <FieldRefs>
     </Field>
 </Elements>
