@@ -41,6 +41,7 @@ const LOG_SOURCE: string = 'RdDocButtons'
 
 const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
   Log.info(LOG_SOURCE, 'React Element: RdDocButtons started')
+  const Source: string = `${window.location.protocol}//${window.location.host}${window.location.pathname}`
   const lstProcesId = '6dc94517-f874-42eb-aa69-5a58011e57e5'
 
   const [dialog, setDialog] = React.useState<DialogType>(DialogType.None)
@@ -198,6 +199,7 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
           size='small'
           disabled={isAllDisabled}
           onClick={(event) => {
+            window.location.href = `${window.location.protocol}//${window.location.host}/sites/acRdDokumenty/_layouts/15/SPListForm.aspx?PageType=4&List=acLibRozpracovane&ID=${props.item.getValueByName('ID')}&Source=${Source}&ContentTypeId=${props.item.getValueByName('ContentTypeId')}&RootFolder=/sites/acRdDokumenty/acLibRozpracovane`
         }}>
           <VisibilityOutlinedIcon />
         </IconButton>
@@ -210,6 +212,7 @@ const RdDocButtons: React.FC<IRdDocButtonsProps> = (props) => {
               size='small'
               disabled={isAllDisabled || isEdDisabled}
               onClick={(event) => {
+                window.location.href = `${window.location.protocol}//${window.location.host}/sites/acRdDokumenty/_layouts/15/SPListForm.aspx?PageType=6&List=acLibRozpracovane&ID=${props.item.getValueByName('ID')}&Source=${Source}&ContentTypeId=${props.item.getValueByName('ContentTypeId')}&RootFolder=/sites/acRdDokumenty/acLibRozpracovane`
             }}>
               <EditOutlinedIcon />
             </IconButton>

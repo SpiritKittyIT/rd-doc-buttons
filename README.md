@@ -50,6 +50,12 @@ Short summary on functionality and used technologies.
 
 > Include any additional steps as needed.
 
+- To deploy
+  - **gulp clean**
+  - **gulp build**
+  - **gulp bundle --ship**
+  - **gulp package-solution --ship**
+
 ## Features
 
 Description of the extension that expands upon high-level summary above.
